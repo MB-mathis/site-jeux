@@ -1,4 +1,3 @@
-# site-jeux
 # 🎮 Projet PHP - Gestion de Jeux
 
 Ce projet est une application web développée en **PHP** avec une base de données **MySQL**. Elle permet à des utilisateurs de s'inscrire, se connecter, et gérer une collection de jeux vidéo (ajout, modification, affichage).
@@ -28,9 +27,11 @@ Ce projet est une application web développée en **PHP** avec une base de donn�
 │ └── connexion-se-inscription.css
 ├── images/
 │ └── jeux/
+│ ├── 1.jpg
+│ ├── 2.jpg
 │ └── default.jpg
 
-pgsql
+yaml
 Copier
 Modifier
 
@@ -43,11 +44,31 @@ Modifier
 - Serveur MySQL
 - Serveur local (XAMPP, WAMP, MAMP, etc.)
 
-### 1. Base de données
+---
 
-Créer une base de données `jeux_db` (par exemple), puis exécuter ce script SQL :
+## 📥 Installation via Git
 
-```sql
+1. Ouvre un terminal (ou Git Bash sous Windows)
+2. Va dans le dossier de ton serveur local (`htdocs` sous XAMPP par exemple)
+3. Clone le projet avec la commande suivante :
+
+```bash
+git clone https://github.com/votre-utilisateur/votre-repo.git
+Remplace votre-utilisateur et votre-repo par les bons noms GitHub.
+
+Renomme le dossier si nécessaire
+
+Lance ton serveur Apache/MySQL
+
+Accède au projet dans ton navigateur :
+http://localhost/nom-du-projet/
+
+📦 Base de données
+Créer une base jeux_db, puis exécuter le script SQL :
+
+sql
+Copier
+Modifier
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_name VARCHAR(50),
@@ -64,8 +85,8 @@ CREATE TABLE jeux (
     limite_age INT,
     image VARCHAR(255)
 );
-2. Connexion à la base (configbdd-pdo.php)
-Adapte ce fichier avec tes identifiants MySQL :
+🔧 Connexion à la base (configbdd-pdo.php)
+Configure ton fichier avec tes identifiants :
 
 php
 Copier
@@ -79,37 +100,26 @@ $conn = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 ?>
 🎨 Style et UI
-Le style est centralisé dans :
+Le style se trouve dans :
 
 bash
 Copier
 Modifier
 style/connexion-se-inscription.css
-Tous les formulaires utilisent les classes .form-wrapper, .input-field, .submit-btn, etc.
+Champs transparents
 
-Le fond d'écran est une image (images/jeux/default.jpg) qui prend toute la page, fixée en arrière-plan.
+Effet de lumière verte au survol
+
+Fond fixe couvrant toute la page (images/jeux/default.jpg)
 
 👤 Rôles
-admin : accès aux pages de gestion
+admin : accès total (mathis@gmail.com)
 
-user : accès limité à la page d'accueil
-
-L’email mathis@gmail.com est automatiquement associé au rôle admin.
-
-🧪 Test
-Tu peux tester :
-
-L’inscription : inscription.php
-
-La connexion : connexion.php
-
-L’ajout ou modification : ajout-modif.php
-
-L’accueil : accueil.php
+user : accès classique
 
 ✨ Auteur
 Projet réalisé par Mathis Maëlane Bongo — BTS SIO 1ère année
 Limoges, France 🇫🇷
 
 📜 Licence
-Ce projet est open-source. Utilisation libre à des fins pédagogiques.
+Projet libre de droits pour un usage pédagogique.
