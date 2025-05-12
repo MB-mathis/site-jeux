@@ -26,9 +26,12 @@ $jeux = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Admin - Liste des elements</title>
+    <link rel="stylesheet" href="style/admin.css">
+
 </head>
 <body>
     <a href="page-modif-ajout-element.php" class="btn">ajouter un jeu </a><br>
+    <br>
     <a href="accueil.php" class="btn">accueil</a>
     <p><a href="deconnexion.php">Se déconnecter</a></p>
     <h2>Liste des utilisateurs</h2>

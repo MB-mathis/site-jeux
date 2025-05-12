@@ -1,0 +1,111 @@
+/* Style global pour la page d'inscription et de connexion */
+
+body {
+    background-image: url('../image/jeux/fond.jpeg'); /* Remplace 'path_to_your_image.jpg' par le chemin de ton image */
+    background-size: cover; /* L'image couvre tout l'espace disponible */
+    background-attachment: fixed; /* L'image reste fixe lors du défilement */
+    background-position: center center; /* L'image est centrée */
+    background-repeat: no-repeat; /* L'image ne se répète pas */
+    height: 100vh; /* Hauteur de la page prend tout l'écran */
+    margin: 0; /* Supprime les marges par défaut du body */
+}
+#registration-form {
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 50px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    opacity: 0.8; /* Légèrement transparent */
+}
+
+/* Titre du formulaire */
+#form-title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    opacity: 100; /* Opacité à 100% pour le titre */
+}
+
+/* Message d'erreur/succès */
+#form-message {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+/* Groupes de champs */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Champs de saisie */
+.form-input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: transparent; /* Effet transparent */
+    color: #333;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Effet de survol pour les champs de saisie */
+.form-input:hover {
+    box-shadow: 0 0 10px 3px rgba(76, 175, 80, 1); /* Lumière verte */
+    border-color: #4CAF50; /* Bordure verte */
+}
+
+/* Effet lorsque l'on clique sur un champ */
+.form-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px 3px rgba(76, 175, 80, 0.7); /* Lumière verte au focus */
+}
+
+/* Bouton de soumission */
+.form-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+/* Effet de survol pour le bouton */
+.form-btn:hover {
+    background-color: #45a049;
+}
+
+/* Lien de connexion */
+#login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1.1em;
+}
+
+#login-link a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+#login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Formulaire de connexion */
+#auth-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ajustements pour les champs sur la page de connexion (si nécessaires) */
+#email, #user_name {
+    margin-bottom: 10px; /* Ajuste la marge entre les champs */
+}

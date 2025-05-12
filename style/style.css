@@ -1,4 +1,13 @@
 /* Header */
+body {
+    background-image: url('image/jeux/pikachu.jpeg'); /* Remplacez par le nom de l'image que tu veux */
+    background-size: cover; /* L'image couvre toute la surface */
+    background-position: center; /* Centre l'image */
+    background-attachment: fixed; /* L'image reste fixe lors du défilement */
+    background-repeat: no-repeat; /* Empêche la répétition de l'image */
+    height: 100vh; /* Assure que le fond couvre toute la hauteur de la fenêtre */
+    margin: 0; /* Enlève la marge par défaut du body */
+}
 #page-header {
     text-align: center;
     margin-bottom: 20px;

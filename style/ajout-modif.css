@@ -1,0 +1,77 @@
+body {
+    background-image: url('../image/jeux/fond-accueil.jpeg'); /* Remplace 'path_to_your_image.jpg' par le chemin de ton image */
+    background-size: cover; /* L'image couvre tout l'espace disponible */
+    background-attachment: fixed; /* L'image reste fixe lors du défilement */
+    background-position: center center; /* L'image est centrée */
+    background-repeat: no-repeat; /* L'image ne se répète pas */
+    height: 100vh; /* Hauteur de la page prend tout l'écran */
+    margin: 0; /* Supprime les marges par défaut du body */
+}
+
+/* Conteneur principal */
+.form-wrapper {
+    width: 100%;
+    max-width: 400px;
+    margin: 80px auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    text-align: center;
+}
+
+/* Titre */
+.form-wrapper h2 {
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #9effa5;
+}
+
+/* Champs de saisie */
+.form-wrapper input[type="text"],
+.form-wrapper input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #9effa5;
+    border-radius: 6px;
+    color: white;
+    transition: box-shadow 0.3s, background-color 0.3s;
+}
+
+.form-wrapper input[type="text"]:hover,
+.form-wrapper input[type="file"]:hover {
+    box-shadow: 0 0 8px #00ff55;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Bouton de soumission */
+.form-wrapper input[type="submit"] {
+    background-color: #00cc66;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.form-wrapper input[type="submit"]:hover {
+    background-color: #00e673;
+    box-shadow: 0 0 10px #00ff66;
+}
+
+/* Lien retour */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #9effa5;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: #00ff88;
+    text-decoration: underline;
+}

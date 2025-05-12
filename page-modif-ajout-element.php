@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="style/connexion-se-inscription.css"> <!-- Assure-toi d'inclure le bon chemin du fichier CSS -->
     <title><?= $id ? "Modifier le jeu" : "Ajouter un jeu" ?></title>
 </head>
 <body>

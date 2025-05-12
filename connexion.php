@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             exit();
         } else {
-            $message = "mot de passe ou email incorrect ";
+            $message = "Mot de passe ou email incorrect.";
         }
     } 
 }
@@ -38,15 +38,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Connexion</title>
+    <link rel="stylesheet" href="style/connexion-se-inscription.css"> <!-- Assure-toi d'inclure le bon chemin du fichier CSS -->
 </head>
 <body>
-    <h2>Se connecter</h2>
-    <p><?php echo $message; ?></p>
-    <form action="" method="post">
-        <input type="email" name="email" placeholder="Email" required><br><br>
-        <input type="password" name="password" placeholder="Mot de passe" required><br><br>
-        <input type="submit" value="Se connecter">
-    </form>
-    <p>Pas encore de compte ? <a href="inscription copy.php">S'inscrire</a></p>
+    <div id="auth-form">
+        
+        <p id="form-message"><?php echo $message; ?></p>
+        <form action="" method="post" id="registration-form">
+             <h2 id="form-title">Se connecter</h2>
+            <div class="form-group">
+                <input type="email" name="email" id="email" class="form-input" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" id="password" class="form-input" placeholder="Mot de passe" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Se connecter" class="form-btn">
+            </div>
+            <p id="login-link">Pas encore de compte ? <a href="inscription copy.php">S'inscrire</a></p>
+        </form>
+        
+    </div>
 </body>
 </html>

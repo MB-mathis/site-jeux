@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check_email->execute();
 
     if ($check_email->rowCount() > 0) {
-        $message = "erreur lors de la creation de compte ";
+        $message = "Erreur lors de la création de compte.";
     } else {
         $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
         $role = ($email === "mathis@gmail.com") ? "admin" : "user"; // Remplace par l'email de ton admin
@@ -43,16 +43,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
+    <link rel="stylesheet" href="style/connexion-se-inscription.css"> <!-- Assure-toi de lier le bon fichier CSS -->
 </head>
 <body>
-    <h2>Créer un compte</h2>
-    <p><?php echo $message; ?></p>
-    <form action="" method="post">
-        <input type="text" name="user_name" placeholder="Nom d'utilisateur" required><br><br>
-        <input type="email" name="email" placeholder="Email" required><br><br>
-        <input type="password" name="password" placeholder="Mot de passe" required><br><br>
-        <input type="submit" value="S'inscrire">
-    </form>
-    <p>Déjà inscrit ? <a href="connexion.php">Se connecter</a></p>
+    <div id="registration-form">
+        <h2 id="form-title">Créer un compte</h2>
+        <p id="form-message"><?php echo $message; ?></p>
+        
+        <form action="" method="post" id="auth-form">
+            <div class="form-group">
+                <label for="user_name">Nom d'utilisateur :</label>
+                <input type="text" name="user_name" id="user_name" placeholder="Nom d'utilisateur" required class="form-input"><br><br>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email :</label>
+                <input type="email" name="email" id="email" placeholder="Email" required class="form-input"><br><br>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password" placeholder="Mot de passe" required class="form-input"><br><br>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="S'inscrire" id="submit-btn" class="form-btn">
+            </div>
+        </form>
+        
+        <p id="login-link">Déjà inscrit ? <a href="connexion.php">Se connecter</a></p>
+    </div>
 </body>
 </html>
