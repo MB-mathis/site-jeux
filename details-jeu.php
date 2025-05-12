@@ -76,7 +76,13 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 <body>
 
 <div class="jeu-details">
-    <img src="<?= htmlspecialchars($jeu['image']) ?>" alt="<?= htmlspecialchars($jeu['nom']) ?>">
+    <?php
+        $imagePath = "image/jeux/" . $jeu['id_jeux'] . ".jpeg";
+        if (!file_exists($imagePath)) {
+            $imagePath = "image/jeux/default.jpeg";
+        }
+    ?>
+<img src="<?= $imagePath ?>" alt="<?= htmlspecialchars($jeu['nom']) ?>">
     <h2><?= htmlspecialchars($jeu['nom']) ?></h2>
     <p><strong>Genre :</strong> <?= htmlspecialchars($jeu['genre']) ?></p>
     <p><strong>Type :</strong> <?= htmlspecialchars($jeu['type']) ?></p>

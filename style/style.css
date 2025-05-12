@@ -1,0 +1,117 @@
+/* Header */
+#page-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#page-title {
+    font-size: 2em;
+}
+
+#user-welcome {
+    font-size: 1.2em;
+}
+
+#logout-link, #admin-link, #login-link {
+    font-size: 1em;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    background-color: #4CAF50; /* Couleur de fond par défaut */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+}
+
+/* Jeux */
+.jeux-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.jeu {
+    width: 200px;
+    text-align: center;
+}
+
+.jeu-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.jeu-name {
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+/* Pagination */
+/* Pagination */
+.pagination {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.pagination-link {
+    margin: 0 10px;
+    padding: 8px 15px;
+    text-decoration: none;
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.pagination-link:hover {
+    background-color: #2196F3;
+    color: white;
+    border-color: #2196F3;
+}
+
+.pagination-link.active {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+    font-weight: bold;
+}
+
+.pagination-link.disabled {
+    color: #aaa;
+    cursor: not-allowed;
+    background-color: #f1f1f1;
+    border-color: #ddd;
+}
+
+.pagination-link:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.7);
+}
+
+.pagination .dots {
+    font-size: 1.2em;
+    margin: 0 10px;
+    color: #2196F3;
+}
+
+
+/* Formulaire Ajouter un jeu */
+#add-game-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#add-game-button:hover {
+    background-color: #45a049;
+}

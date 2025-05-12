@@ -38,12 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom'])) {
         }
 
     // Déplacer l'image téléchargée dans le dossier approprié
-   $imagePath = "images/jeux/";
+   $imagePath = "image/jeux/";
         $imageName = ($id ? $id : time()) . "." . $ext; // Utiliser id ou timestamp
         move_uploaded_file($image['tmp_name'], $imagePath . $imageName);
     } else {
         // Si aucune image n'a été téléchargée, utiliser une image par défaut pour les nouveaux jeux
-        $imageName = $id ? $jeu['image'] : "placeholder.jpg";
+        $imageName = $id ? $jeu['image'] : "default.jpg";
     }
 
     if ($id) {
