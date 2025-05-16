@@ -2,7 +2,7 @@
 session_start();
 require_once "configbdd-pdo.php"; // Connexion à la base de données
 
-$id = $_POST['id'] ?? null;
+$id = $_POST['id'] ?? $_GET['id'] ?? null;
 $jeu = ['nom' => '', 'genre' => '', 'type' => '', 'limite_age' => '', 'image' => '']; // Valeurs par défaut
 
 if ($id) {
@@ -20,16 +20,16 @@ if ($id) {
 
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom'])) {
-     $nom = htmlspecialchars($_POST['nom']);  // Assainir les entrées
+    $nom = htmlspecialchars($_POST['nom']);  // Assainir les entrées
     $genre = htmlspecialchars($_POST['genre']);
     $type = htmlspecialchars($_POST['type']);
     $limite_age = $_POST['limite_age'];
-    $image = $_FILES['image'] ?? null;
+    $imageName = null;
 
-// Vérification de l'upload de l'image
-    if ($image && $image['error'] === UPLOAD_ERR_OK) {
+    // Correction : vérifier si un fichier a été uploadé et qu'il n'y a pas d'erreur
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         // Récupérer l'extension du fichier
-        $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
+        $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 
         // Vérification de l'extension (JPEG ou PNG uniquement)
         if (!in_array(strtolower($ext), ['jpg', 'jpeg', 'png'])) {
@@ -37,78 +37,116 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom'])) {
             exit();
         }
 
-    // Déplacer l'image téléchargée dans le dossier approprié
-   $imagePath = "image/jeux/";
-        $imageName = ($id ? $id : time()) . "." . $ext; // Utiliser id ou timestamp
-        move_uploaded_file($image['tmp_name'], $imagePath . $imageName);
+        // Dossier de destination (chemin absolu pour éviter les erreurs)
+        $imagePath = __DIR__ . "/image/jeux/";
+
+        // Crée le dossier s'il n'existe pas
+        if (!is_dir($imagePath)) {
+            mkdir($imagePath, 0755, true);
+        }
+
+        // Vérifie si le dossier est accessible en écriture
+        if (!is_writable($imagePath)) {
+            echo "Erreur : le dossier de destination n'est pas accessible en écriture.<br>";
+            echo "Chemin : $imagePath<br>";
+            echo "Permissions actuelles : " . substr(sprintf('%o', fileperms($imagePath)), -4) . "<br>";
+            exit();
+        }
+
+        // Nom du fichier image auquel on ajoute un id unique à la fin pour éviter les conflits
+        $baseName = pathinfo($_FILES['image']['name'], PATHINFO_FILENAME);
+        $baseName = preg_replace('/[^a-zA-Z0-9_\.]/', '_', $baseName);
+        $imageName = $baseName . "_" . uniqid() . "." . $ext;
+
+        // Déplacer l'image téléchargée dans le dossier approprié
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $imagePath . $imageName)) {
+            echo "Erreur lors du téléchargement de l'image.<br>";
+            echo "Chemin de destination : " . $imagePath . $imageName . "<br>";
+            exit();
+        }
     } else {
-        // Si aucune image n'a été téléchargée, utiliser une image par défaut pour les nouveaux jeux
-        $imageName = $id ? $jeu['image'] : "default.jpg";
+        // Si modification, garder l'image existante
+        if ($id && !empty($jeu['image'])) {
+            $imageName = $jeu['image'];
+        } else {
+            $imageName = "default.jpeg";
+        }
     }
 
     if ($id) {
         // Mise à jour
-        $sql = "UPDATE jeux SET nom = :nom, genre = :genre, type = :type, limite_age = :limite_age, image = :image  WHERE id_jeux = :id";
+        $sql = "UPDATE jeux SET nom = :nom, genre = :genre, type = :type, limite_age = :limite_age, image = :image WHERE id_jeux = :id";
         $stmt = $conn->prepare($sql);
-        $stmt->execute([':id' => $id, ':nom' => $nom, ':genre' => $genre, ':type' => $type, ':limite_age' => $limite_age,
-            ':image' => $imageName]);
-        echo "Jeu mis à jour.";
+        $stmt->execute([
+            ':id' => $id,
+            ':nom' => $nom,
+            ':genre' => $genre,
+            ':type' => $type,
+            ':limite_age' => $limite_age,
+            ':image' => $imageName
+        ]);
+        // Redirection pour recharger la page avec la nouvelle image
+        header("Location: page-modif-ajout-element.php?id=$id");
+        exit();
     } else {
         // Ajout
-        $sql = "INSERT INTO jeux (nom, genre, type, limite_age,image) VALUES (:nom, :genre, :type, :limite_age,:image)";
+        $sql = "INSERT INTO jeux (nom, genre, type, limite_age, image) VALUES (:nom, :genre, :type, :limite_age, :image)";
         $stmt = $conn->prepare($sql);
-        $stmt->execute([':nom' => $nom, ':genre' => $genre, ':type' => $type, ':limite_age' => $limite_age,
-            ':image' => $imageName]);
-        echo "Jeu ajouté.";
+        $stmt->execute([
+            ':nom' => $nom,
+            ':genre' => $genre,
+            ':type' => $type,
+            ':limite_age' => $limite_age,
+            ':image' => $imageName
+        ]);
+        // Récupérer le nouvel id
+        $newId = $conn->lastInsertId();
+        header("Location: page-modif-ajout-element.php?id=$newId");
+        exit();
     }
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="style/connexion-se-inscription.css"> <!-- Assure-toi d'inclure le bon chemin du fichier CSS -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style/connexion-se-inscription.css" />
     <title><?= $id ? "Modifier le jeu" : "Ajouter un jeu" ?></title>
 </head>
 <body>
 
-<h2><?= $id ? "Modifier le jeu" : "Ajouter un jeu" ?></h2>
+<h2 id="titre-formulaire"><?= $id ? "Modifier le jeu" : "Ajouter un jeu" ?></h2>
 
-<!-- Liens de navigation -->
-<a href="accueil.php">⬅ Retour à l'accueil</a> |
+<a href="accueil.php" id="retour-accueil">⬅ Retour à l'accueil</a> |
 
-<form method="POST" action="">
+<form method="POST" action="" enctype="multipart/form-data" id="form-jeu" class="form-jeu">
     <?php if ($id): ?>
-        <input type="hidden" name="id" value="<?= htmlspecialchars($jeu['id_jeux']) ?>">
+        <input type="hidden" name="id" value="<?= htmlspecialchars($jeu['id_jeux']) ?>" />
     <?php endif; ?>
 
-    <label for="nom">Nom :</label>
-    <input type="text" name="nom" value="<?= htmlspecialchars($jeu['nom']) ?>" required><br><br>
+    <label for="nom" class="label-nom">Nom :</label>
+    <input type="text" id="nom" name="nom" class="input-nom" value="<?= htmlspecialchars($jeu['nom']) ?>" required /><br><br>
 
-    <label for="genre">Genre :</label>
-    <input type="text" name="genre" value="<?= htmlspecialchars($jeu['genre']) ?>" required><br><br>
+    <label for="genre" class="label-genre">Genre :</label>
+    <input type="text" id="genre" name="genre" class="input-genre" value="<?= htmlspecialchars($jeu['genre']) ?>" required /><br><br>
 
-    <label for="type">Type :</label>
-    <input type="text" name="type" value="<?= htmlspecialchars($jeu['type']) ?>" required><br><br>
+    <label for="type" class="label-type">Type :</label>
+    <input type="text" id="type" name="type" class="input-type" value="<?= htmlspecialchars($jeu['type']) ?>" required /><br><br>
 
-    <label for="limite_age">Âge limite :</label>
-    <input type="number" name="limite_age" value="<?= htmlspecialchars($jeu['limite_age']) ?>" required><br><br>
+    <label for="limite_age" class="label-limite-age">Âge limite :</label>
+    <input type="number" id="limite_age" name="limite_age" class="input-limite-age" value="<?= htmlspecialchars($jeu['limite_age']) ?>" required /><br><br>
 
-     <?php if ($id && !empty($jeu['image'])): ?>
-        <p>Image actuelle :</p>
-        <img src="images/jeux/<?= htmlspecialchars($jeu['image']) ?>" alt="Image du jeu" width="150"><br><br>
+    <?php if ($id && !empty($jeu['image'])): ?>
+        <p id="texte-image-actuelle">Image actuelle :</p>
+        <img src="image/jeux/<?= htmlspecialchars($jeu['image']) ?>" alt="Image du jeu" width="150" id="image-actuelle" class="image-actuelle" /><br><br>
     <?php endif; ?>
 
-    <label for="image">Image du jeu:</label>
-    <input type="file" id="image" name="image" accept="image/jpeg, image/png" <?= $id ? '' : 'required' ?>>
+    <label for="image" class="label-image">Image du jeu :</label>
+    <input type="file" id="image" name="image" class="input-image" accept="image/jpeg, image/png" <?= $id ? '' : 'required' ?> /><br><br>
 
-
-    <input type="submit" value="<?= $id ? "Mettre à jour" : "Ajouter" ?>">
+    <input type="submit" id="btn-submit-jeu" class="btn-submit-jeu" value="<?= $id ? "Mettre à jour" : "Ajouter" ?>" />
 </form>
 
 </body>

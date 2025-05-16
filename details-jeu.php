@@ -75,31 +75,32 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 </head>
 <body>
 
-<div class="jeu-details">
+<div class="jeu-details" id="jeu-details">
     <?php
-        $imagePath = "image/jeux/" . $jeu['id_jeux'] . ".jpeg";
+         $imageName = !empty($jeu['image']) ? $jeu['image'] : "default.jpeg";
+         $imagePath = "image/jeux/" . $imageName;
         if (!file_exists($imagePath)) {
             $imagePath = "image/jeux/default.jpeg";
         }
     ?>
-<img src="<?= $imagePath ?>" alt="<?= htmlspecialchars($jeu['nom']) ?>">
-    <h2><?= htmlspecialchars($jeu['nom']) ?></h2>
-    <p><strong>Genre :</strong> <?= htmlspecialchars($jeu['genre']) ?></p>
-    <p><strong>Type :</strong> <?= htmlspecialchars($jeu['type']) ?></p>
-    <p><strong>Limite d'âge :</strong> <?= htmlspecialchars($jeu['limite_age']) ?></p>
+    <img src="<?= $imagePath ?>" alt="<?= htmlspecialchars($jeu['nom']) ?>" class="jeu-image" id="jeu-image">
+    <h2 class="jeu-nom" id="jeu-nom"><?= htmlspecialchars($jeu['nom']) ?></h2>
+    <p class="jeu-genre" id="jeu-genre"><strong>Genre :</strong> <?= htmlspecialchars($jeu['genre']) ?></p>
+    <p class="jeu-type" id="jeu-type"><strong>Type :</strong> <?= htmlspecialchars($jeu['type']) ?></p>
+    <p class="jeu-limite-age" id="jeu-limite-age"><strong>Limite d'âge :</strong> <?= htmlspecialchars($jeu['limite_age']) ?></p>
 
     <?php if (isset($_SESSION['user_id'])): ?>
-    <div class="actions">
+    <div class="actions" id="jeu-actions">
         <!-- Bouton modifier -->
-        <form method="POST" action="page-modif-ajout-element.php">
+        <form method="POST" action="page-modif-ajout-element.php" class="form-modifier" id="form-modifier">
             <input type="hidden" name="id" value="<?= $jeu['id_jeux'] ?>">
-            <input type="submit" value="Modifier" class="modifier">
+            <input type="submit" value="Modifier" class="modifier" id="btn-modifier">
         </form>
 
         <!-- Bouton supprimer -->
-        <form method="POST" action="page-supprime-element.php" onsubmit="return confirm('Supprimer ce jeu ?');">
+        <form method="POST" action="page-supprime-element.php" class="form-supprimer" id="form-supprimer" onsubmit="return confirm('Supprimer ce jeu ?');">
             <input type="hidden" name="id" value="<?= $jeu['id_jeux'] ?>">
-            <input type="submit" value="Supprimer" class="supprimer">
+            <input type="submit" value="Supprimer" class="supprimer" id="btn-supprimer">
         </form>
     </div>
     <?php endif; ?>

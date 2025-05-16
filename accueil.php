@@ -17,7 +17,7 @@ $pageActuelle = max($pageActuelle, 1); // Assurer qu'on est au minimum à la pag
 $offset = ($pageActuelle - 1) * $itemsParPage;
 
 // Récupérer tous les jeux
-$sql = "SELECT `id_jeux`, nom, genre, type, limite_age FROM jeux LIMIT :limit OFFSET :offset";
+$sql = "SELECT `id_jeux`, nom, genre, type, limite_age, image FROM jeux LIMIT :limit OFFSET :offset";
 $stmt = $conn->prepare($sql);
 $stmt->bindValue(':limit', $itemsParPage, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
@@ -73,14 +73,11 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <div class="jeux-container">
             <?php foreach ($jeux as $jeu): ?>
                 <div class="jeu">
-                    <?php
-                        // Vérifie dans le système de fichiers
-                        $imageFilePath = "image/jeux/" . $jeu['id_jeux'] . ".jpeg";
-                        if (!file_exists($imageFilePath)) {
-                            $imageSrc = "image/jeux/default.jpeg"; // pour HTML
-                        } else {
-                            $imageSrc = $imageFilePath; // chemin pour HTML aussi
-                        }
+                   <?php
+                        //  On utilise le chemin de l’image stockée en base
+                        $imageNom = $jeu['image'];
+                        $imagePath = "image/jeux/" . $imageNom;
+                        $imageSrc = (empty($imageNom) || !file_exists($imagePath)) ? "image/jeux/default.jpeg" : $imagePath;
                     ?>
                     <a href="details-jeu.php?id=<?= $jeu['id_jeux'] ?>" class="jeu-link">
                         <img src="<?= $imageSrc ?>" alt="<?= htmlspecialchars($jeu['nom']) ?>" class="jeu-image">
@@ -98,10 +95,10 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <?php if ($totalPages > 1): ?>
 
             <!-- Première -->
-            <a href="?page=1" class="pagination-link <?= ($pageActuelle == 1) ? 'active' : '' ?>">Première</a>
+            <a href="?page=1" class="pagination-link <?= ($pageActuelle == 1) ? 'active' : '' ?>"><<</a>
 
             <!-- Précédente -->
-            <a href="?page=<?= max(1, $pageActuelle - 1) ?>" class="pagination-link <?= ($pageActuelle == 1) ? 'disabled' : '' ?>">Précédente</a>
+            <a href="?page=<?= max(1, $pageActuelle - 1) ?>" class="pagination-link <?= ($pageActuelle == 1) ? 'disabled' : '' ?>"><</a>
 
             <?php
             $pagesDebut = 4;
@@ -149,10 +146,10 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             ?>
 
             <!-- Suivante -->
-            <a href="?page=<?= min($totalPages, $pageActuelle + 1) ?>" class="pagination-link <?= ($pageActuelle == $totalPages) ? 'disabled' : '' ?>">Suivante</a>
+            <a href="?page=<?= min($totalPages, $pageActuelle + 1) ?>" class="pagination-link <?= ($pageActuelle == $totalPages) ? 'disabled' : '' ?>">></a>
 
             <!-- Dernière -->
-            <a href="?page=<?= $totalPages ?>" class="pagination-link <?= ($pageActuelle == $totalPages) ? 'active' : '' ?>">Dernière</a>
+            <a href="?page=<?= $totalPages ?>" class="pagination-link <?= ($pageActuelle == $totalPages) ? 'active' : '' ?>">>></a>
 
         <?php endif; ?>
     </div>

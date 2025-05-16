@@ -1,12 +1,12 @@
 /* Header */
 body {
-    background-image: url('image/jeux/pikachu.jpeg'); /* Remplacez par le nom de l'image que tu veux */
-    background-size: cover; /* L'image couvre toute la surface */
-    background-position: center; /* Centre l'image */
+    background-image: url('../image/jeux/fond-accueil.jpeg'); /* Remplace 'path_to_your_image.jpg' par le chemin de ton image */
+    background-size: cover; /* L'image couvre tout l'espace disponible */
     background-attachment: fixed; /* L'image reste fixe lors du défilement */
-    background-repeat: no-repeat; /* Empêche la répétition de l'image */
-    height: 100vh; /* Assure que le fond couvre toute la hauteur de la fenêtre */
-    margin: 0; /* Enlève la marge par défaut du body */
+    background-position: center center; /* L'image est centrée */
+    background-repeat: no-repeat; /* L'image ne se répète pas */
+    height: 100vh; /* Hauteur de la page prend tout l'écran */
+    margin: 0; /* Supprime les marges par défaut du body */
 }
 #page-header {
     text-align: center;
@@ -15,10 +15,12 @@ body {
 
 #page-title {
     font-size: 2em;
+    color: #002aff;
 }
 
 #user-welcome {
     font-size: 1.2em;
+    color: #002aff;
 }
 
 #logout-link, #admin-link, #login-link {
@@ -26,7 +28,7 @@ body {
     padding: 10px 20px;
     text-decoration: none;
     display: inline-block;
-    background-color: #4CAF50; /* Couleur de fond par défaut */
+    background-color: #002aff; /* Couleur de fond par défaut */
     color: white;
     border: none;
     border-radius: 5px;
@@ -56,8 +58,18 @@ body {
 }
 
 .jeu-name {
-    font-size: 1.1em;
+      font-size: 1em;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    background-color: #002aff; /* Couleur de fond par défaut */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     margin-top: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
 }
 
 /* Pagination */
@@ -86,9 +98,9 @@ body {
 }
 
 .pagination-link.active {
-    background-color: #4CAF50;
+    background-color: #5c569b;
     color: white;
-    border-color: #4CAF50;
+    border-color: #000000;
     font-weight: bold;
 }
 
@@ -107,13 +119,13 @@ body {
 .pagination .dots {
     font-size: 1.2em;
     margin: 0 10px;
-    color: #2196F3;
+    color: #fe0606;
 }
 
 
 /* Formulaire Ajouter un jeu */
 #add-game-button {
-    background-color: #4CAF50;
+    background-color: #002aff;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -122,5 +134,5 @@ body {
 }
 
 #add-game-button:hover {
-    background-color: #45a049;
+    background-color: #010101;
 }
